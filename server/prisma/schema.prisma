@@ -1,0 +1,24 @@
+// AI画像分析APIのレスポンスを保存するスキーマ。
+// docs/requirements.md 記載のCREATE文に準拠。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AiAnalysisLog {
+  id                Int       @id @default(autoincrement())
+  imagePath         String?   @map("image_path") @db.VarChar(255)
+  success           Boolean
+  message           String?   @db.VarChar(255)
+  class             Int?
+  confidence        Decimal?  @db.Decimal(5, 4)
+  requestTimestamp  DateTime? @map("request_timestamp") @db.DateTime(6)
+  responseTimestamp DateTime? @map("response_timestamp") @db.DateTime(6)
+
+  @@map("ai_analysis_log")
+}

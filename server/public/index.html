@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Analysis Log</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>AI画像分析 ログビューア</h1>
+
+    <section class="card">
+      <h2>画像分析リクエスト</h2>
+      <form id="analyze-form">
+        <label for="image_path">image_path</label>
+        <input
+          id="image_path"
+          name="image_path"
+          type="text"
+          placeholder="/image/d03f1d36ca69348c51aa/c413eac329e1c0d03/test.jpg"
+          required
+        />
+        <button type="submit">送信</button>
+      </form>
+      <p id="result" class="result" hidden></p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <h2>分析ログ一覧</h2>
+        <button id="refresh-button" type="button">更新</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>image_path</th>
+            <th>success</th>
+            <th>message</th>
+            <th>class</th>
+            <th>confidence</th>
+            <th>request_timestamp</th>
+            <th>response_timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="log-table-body"></tbody>
+      </table>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
