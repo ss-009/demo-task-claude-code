@@ -5,7 +5,7 @@
 ## プロジェクト概要
 
 画像Pathを受け取り、外部のAI画像分析APIへリクエストを送信し、そのレスポンス(分類結果)をDBへ保存するAPIサーバー。
-課題の詳細仕様は [`docs/requirements.md`](docs/requirements.md) を参照(元PDF: [`docs/課題+開発_2412.pdf`](docs/課題+開発_2412.pdf))。
+課題の詳細仕様は [`docs/requirements.md`](docs/requirements.md) を参照。
 
 外部AI分析APIは実在しないため、`mock-ai-api/` に仕様通りのレスポンスを返すモックサーバーを実装し、
 `server/` の本体アプリが実際にHTTP経由でこれを呼び出す構成になっている。

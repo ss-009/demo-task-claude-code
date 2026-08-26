@@ -5,7 +5,7 @@
 画像Pathを受け取り、外部のAI画像分析API(実在しないためモックで代替)へリクエストを送信し、
 そのレスポンス(分類結果)をMySQLへ保存するAPIサーバー。
 
-- 課題要件: [`docs/requirements.md`](docs/requirements.md)(元PDF: [`docs/課題+開発_2412.pdf`](docs/課題+開発_2412.pdf))
+- 課題要件: [`docs/requirements.md`](docs/requirements.md)
 - 実装方針・設計: [`CLAUDE.md`](CLAUDE.md)
 
 ## 構成
