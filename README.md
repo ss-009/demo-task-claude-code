@@ -7,6 +7,7 @@
 
 - 課題要件: [`docs/requirements.md`](docs/requirements.md)
 - 実装方針・設計: [`CLAUDE.md`](CLAUDE.md)
+- [demo-taskからの主な変更点](#demo-task旧実装からの主な変更点)
 
 ## 構成
 
@@ -105,3 +106,17 @@ npm run test:e2e  # e2e test (要: mysqlコンテナ起動 + demo_task_test DB)
 `test:e2e` 実行前に、`docker compose up -d mysql` でMySQLを起動しておくこと(`demo_task_test` データベースは
 `pretest:e2e` スクリプトが `prisma migrate deploy` で自動的にマイグレーションを適用する。データベース自体が
 存在しない場合は事前に作成しておくこと)。
+
+## demo-task(旧実装)からの主な変更点
+
+| 観点 | demo-task | 本プロジェクト |
+| --- | --- | --- |
+| 外部API呼び出し | `MockAiAnalysisClient` を同一プロセス内で直接呼び出すのみで、実際のHTTP通信は発生しない | `mock-ai-api` を別プロセス・別コンテナとして立て、実際にHTTP経由で呼び出す |
+| エラーの扱い | AI API呼び出し・レスポンス検証・DB保存のいずれで例外が起きても`except Exception`で握りつぶし、一律`Error:E50012`にまとめてしまう | 「APIがsuccess:falseを返した(ドメイン失敗)」と「疎通自体に失敗した(タイムアウト・5xx・不正なレスポンス)」を型で区別し、原因ごとに異なるメッセージ・HTTPステータスを返す |
+| モックの応答 | `random`による非決定的な値(テストのたびに結果が変わる) | image_pathのハッシュ値による決定的な値 + トリガー文字列で任意の異常系を再現可能 |
+| マイグレーション | `docker-compose exec web python -m app.migrations.create_tables`を手動実行 | サーバー起動時に`prisma migrate deploy`が自動実行される |
+| 起動順序 | 特になし | Docker Composeにhealthcheckを設定し、DB/モックAPIの起動完了を待ってから本体を起動 |
+| バリデーション | リクエストの型チェックのみ(pydantic) | `class-validator`によるDTOバリデーションに加え、外部APIレスポンスの形状もランタイムで検証 |
+| UI | なし | 画像分析フォーム + ログ一覧の簡易UIを追加 |
+| テスト | pytest(unit) | unit 14件 + e2e 5件(実DBに対する結合テストを含む) |
+| 実装時間 | 約10時間(Claude Code不使用) | 約1.5時間(Claude Codeで実装) |
