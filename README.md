@@ -1,6 +1,6 @@
 # demo-task-claude-code
 
-課題demo-taskをclaude codeで改善したもの。
+課題[demo-task](https://github.com/ss-009/demo-task)をclaude codeで改善したもの。
 
 画像Pathを受け取り、外部のAI画像分析API(実在しないためモックで代替)へリクエストを送信し、
 そのレスポンス(分類結果)をMySQLへ保存するAPIサーバー。
